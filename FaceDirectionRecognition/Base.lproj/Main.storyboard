@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dOU-Lo-mja">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Get Image View Controller-->
+        <scene sceneID="SXp-BB-6Ig">
+            <objects>
+                <viewController id="dOU-Lo-mja" customClass="GetImageViewController" customModule="FaceDirectionRecognition" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lB9-hX-uBf"/>
+                        <viewControllerLayoutGuide type="bottom" id="P18-YN-7o0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wuu-xC-Tfg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Jt-ya-jh8">
+                                <rect key="frame" x="112" y="66" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="4cZ-PQ-SIf"/>
+                                    <constraint firstAttribute="width" constant="150" id="I6I-Hp-a7M"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atc-k0-A7v">
+                                <rect key="frame" x="152" y="269" width="72" height="30"/>
+                                <state key="normal" title="Recognize"/>
+                                <connections>
+                                    <action selector="recognize:" destination="dOU-Lo-mja" eventType="touchUpInside" id="pdi-RC-XqR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eyp-Fp-nxh">
+                                <rect key="frame" x="113" y="28" width="148" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="148" id="gVM-zT-5Kv"/>
+                                </constraints>
+                                <state key="normal" title="Take Image"/>
+                                <connections>
+                                    <action selector="takeImageBtn:" destination="dOU-Lo-mja" eventType="touchUpInside" id="uaf-R3-5bx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6P2-dQ-MPq">
+                                <rect key="frame" x="305" y="28" width="54" height="30"/>
+                                <state key="normal" title="Options"/>
+                                <connections>
+                                    <action selector="options:" destination="dOU-Lo-mja" eventType="touchUpInside" id="j17-Ui-x9R"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Right" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rIY-YF-rRe">
+                                <rect key="frame" x="67" y="314" width="240" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="KMC-e5-4P6"/>
+                                    <constraint firstAttribute="height" constant="80" id="Wgo-r7-fcS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Md8-h6-LJU">
+                                <rect key="frame" x="77" y="224" width="220" height="30"/>
+                                <state key="normal" title="Normalize into Lower Dimension"/>
+                                <connections>
+                                    <action selector="normalizeBtnClicked:" destination="dOU-Lo-mja" eventType="touchUpInside" id="Lj3-oq-bxM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZT-KB-hpG">
+                                <rect key="frame" x="219" y="269" width="125" height="30"/>
+                                <state key="normal" title="Save to Train ANN"/>
+                                <connections>
+                                    <action selector="saveToTrainANNBtnClicked:" destination="dOU-Lo-mja" eventType="touchUpInside" id="BEs-Ug-agV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8h-oE-cOE">
+                                <rect key="frame" x="31" y="269" width="99" height="30"/>
+                                <state key="normal" title="Face Direction"/>
+                                <connections>
+                                    <action selector="faceDirectionBtnClicked:" destination="dOU-Lo-mja" eventType="touchUpInside" id="HPn-q6-IfI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P65-OO-Bdp">
+                                <rect key="frame" x="153" y="384" width="70" height="30"/>
+                                <state key="normal" title="Train ANN"/>
+                                <connections>
+                                    <action selector="trainANNBtnClicked:" destination="dOU-Lo-mja" eventType="touchUpInside" id="thk-oE-fbe"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rIY-YF-rRe" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="Db6-oY-1IG"/>
+                            <constraint firstItem="Md8-h6-LJU" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="DxW-Ep-Mn2"/>
+                            <constraint firstItem="qZT-KB-hpG" firstAttribute="top" secondItem="Md8-h6-LJU" secondAttribute="bottom" constant="15" id="FL6-QD-D5h"/>
+                            <constraint firstItem="Eyp-Fp-nxh" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="Ild-c7-Kl7"/>
+                            <constraint firstItem="8Jt-ya-jh8" firstAttribute="top" secondItem="Eyp-Fp-nxh" secondAttribute="bottom" constant="8" id="Kd2-XG-9BP"/>
+                            <constraint firstItem="C8h-oE-cOE" firstAttribute="top" secondItem="Md8-h6-LJU" secondAttribute="bottom" constant="15" id="NY7-cH-OHi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qZT-KB-hpG" secondAttribute="trailing" constant="15" id="SqW-IF-WdR"/>
+                            <constraint firstItem="atc-k0-A7v" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="UnX-xO-15L"/>
+                            <constraint firstItem="Eyp-Fp-nxh" firstAttribute="top" secondItem="lB9-hX-uBf" secondAttribute="bottom" constant="8" id="Vff-2N-cgR"/>
+                            <constraint firstItem="6P2-dQ-MPq" firstAttribute="top" secondItem="lB9-hX-uBf" secondAttribute="bottom" constant="8" id="XXh-vt-hMu"/>
+                            <constraint firstItem="P65-OO-Bdp" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="bKt-Sg-myi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6P2-dQ-MPq" secondAttribute="trailing" id="eaR-rr-oET"/>
+                            <constraint firstItem="Md8-h6-LJU" firstAttribute="top" secondItem="8Jt-ya-jh8" secondAttribute="bottom" constant="8" id="hxj-cP-fdd"/>
+                            <constraint firstItem="C8h-oE-cOE" firstAttribute="leading" secondItem="wuu-xC-Tfg" secondAttribute="leadingMargin" constant="15" id="nem-Kj-znj"/>
+                            <constraint firstItem="atc-k0-A7v" firstAttribute="top" secondItem="Md8-h6-LJU" secondAttribute="bottom" constant="15" id="q8m-MA-QV1"/>
+                            <constraint firstItem="8Jt-ya-jh8" firstAttribute="centerX" secondItem="wuu-xC-Tfg" secondAttribute="centerX" id="t66-tj-aio"/>
+                            <constraint firstItem="rIY-YF-rRe" firstAttribute="top" secondItem="atc-k0-A7v" secondAttribute="bottom" constant="15" id="waN-G8-Gbc"/>
+                            <constraint firstItem="P65-OO-Bdp" firstAttribute="top" secondItem="qZT-KB-hpG" secondAttribute="bottom" constant="85" id="zdM-Z3-6K8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="captureImageView" destination="8Jt-ya-jh8" id="6HO-of-1wz"/>
+                        <outlet property="faceDirectionOutlet" destination="C8h-oE-cOE" id="yxa-hf-hjB"/>
+                        <outlet property="normalizeIntoLowerDimension" destination="Md8-h6-LJU" id="04v-NU-4yZ"/>
+                        <outlet property="optionsBtnOutlet" destination="6P2-dQ-MPq" id="Mnu-uw-LMg"/>
+                        <outlet property="recognizeTextBtnOutlet" destination="atc-k0-A7v" id="Ya5-EO-eHg"/>
+                        <outlet property="saveToTrainANN" destination="qZT-KB-hpG" id="cN0-8V-i0i"/>
+                        <outlet property="textView" destination="rIY-YF-rRe" id="sSv-fo-8Hb"/>
+                        <outlet property="trainANNOutlet" destination="P65-OO-Bdp" id="dfR-A9-C9I"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K5R-Om-MNX" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+        </scene>
+    </scenes>
+</document>
