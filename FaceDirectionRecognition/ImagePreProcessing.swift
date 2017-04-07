@@ -120,7 +120,7 @@ class ImagePreProcessing {
         var intensities = [Double]()
         for i in 0..<ImageProcessingConstants.optimalDimensionX {
             for j in 0..<ImageProcessingConstants.optimalDimensionY {
-                intensities.append(inputMatrix[i][j])
+                intensities.append(inputMatrix[i][j]/255.0)
             }
         }
         return intensities

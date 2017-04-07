@@ -16,7 +16,6 @@ struct ANNConstants {
     static let numberOfUnitsAtInputLayer  = ImageProcessingConstants.optimalDimensionX*ImageProcessingConstants.optimalDimensionY
     static let numberOfUnitsAtHiddenLayer = 3     // Experimental value
     static let numberOfUnitsAtOutputLayer = 4     // { left, right, straight, up }
-    static let weightVector = "WeightVector"
 }
 
 struct FaceRecognitionDirectionConstants {
@@ -32,6 +31,7 @@ class TrainingANN {
     var backPropagation : BackPropagation?
     
     // use for saving in core data
+    
     var faceDirection = [Double]()
     var inputsTrainData = [Double]()
     var pixels = [[PixelData]]()
@@ -40,7 +40,9 @@ class TrainingANN {
     
     func trainBackpropagation() {
         backPropagation = BackPropagation(units_input_layer: ANNConstants.numberOfUnitsAtInputLayer, units_hidden_layer: ANNConstants.numberOfUnitsAtHiddenLayer, units_output_layer: ANNConstants.numberOfUnitsAtOutputLayer)
+        initializeWeightVector()
         retrieveData()
+        saveWeights()
     }
     
     //MARK:- Output for unknown input
@@ -51,8 +53,19 @@ class TrainingANN {
     
     //MARK:- Weight Vector 
     
-    func getWeightVector() -> ([[Double]],[[Double]]) {
-        return backPropagation?.getWeightVector() ?? ([],[])
+    func getWeightVector() -> [[[Double]]] {
+        return backPropagation?.getWeightVector() ?? []
+    }
+    
+    func initializeWeightVector() {
+        let intialWeightVector = retrieveWeightVector()
+        if intialWeightVector.count > 0 {
+            let inputToHiddenWeight = intialWeightVector[0]
+            let hiddenToOutput      = intialWeightVector[1]
+            if inputToHiddenWeight.count > 0 && hiddenToOutput.count > 0 {
+                backPropagation?.intializeWeightVectorParametersTillLastTrain(initialWeightInputToHidden: inputToHiddenWeight, initialWeightHiddenToOutput: hiddenToOutput)
+            }
+        }
     }
     
     //MARK:- Retrieve from Core Data 
@@ -81,19 +94,32 @@ class TrainingANN {
     }
     
     
-    //MARK:- Save weightVector into core data (not in user defaults )
+    //MARK:- Save weightVector in a JSON file into Document Directory
     
-    func saveWeights() {
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(backPropagation?.getWeightVector(), forKey: ANNConstants.weightVector)
-        userDefaults.synchronize()
-    }
-    
-    func retrieveWeightVector() {
-        let userDefaults = UserDefaults.standard
-        if let weightVector = userDefaults.value(forKey: ANNConstants.weightVector) as? (weightages_from_input_to_hidden : [[Double]], weightages_from_hidden_to_output : [[Double]]) {
-           backPropagation?.saveWeightVector(weightages_from_input_to_hidden: weightVector.weightages_from_input_to_hidden, weightages_from_hidden_to_output: weightVector.weightages_from_hidden_to_output)
+    fileprivate func saveWeights() {
+        do {
+            guard let directory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else { return }
+            guard let pathUrl = NSURL(string: "file://\(directory)") else { return }
+            guard let path = pathUrl.appendingPathComponent("WeightVector.json") else { return }
+            
+            guard let data = try? JSONSerialization.data(withJSONObject: backPropagation?.getWeightVector() ?? [], options: .prettyPrinted) else { return }
+            try data.write(to: path)
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
-
+    
+    fileprivate func retrieveWeightVector() -> [[[Double]]] {
+        
+        guard let directory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else { return [] }
+        guard let pathUrl = NSURL(string: "file://\(directory)") else { return [] }
+        guard let path = pathUrl.appendingPathComponent("WeightVector.json") else { return [] }
+        
+        guard let data = try? Data(contentsOf: path) else { return [] }
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else { return [] }
+        if let doubleArray = json as? [[[Double]]] {
+            return doubleArray
+        }
+        return []
+    }
 }

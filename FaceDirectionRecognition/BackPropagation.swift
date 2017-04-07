@@ -74,11 +74,15 @@ class BackPropagation {
         n_input  = units_input_layer
         n_hidden = units_hidden_layer
         n_output = units_output_layer
-        intializeParameters()
+        initializeParameters()
     }
     
-    fileprivate func intializeParameters() {
-        
+    fileprivate func initializeParameters() {
+        defaultInitializeWeightVector()
+        initializeError()
+    }
+    
+    fileprivate func defaultInitializeWeightVector() {
         for _ in 0..<n_hidden {
             var temp = [Double]()
             for _ in 0..<n_input {
@@ -94,8 +98,28 @@ class BackPropagation {
             }
             weightages_from_hidden_to_output.append(temp)
         }
+    }
+    
+    fileprivate func initializeError() {
         for _ in 0..<n_hidden { outputs_hidden_layers.append(0.0) ; errors_hidden_layer.append(0.0) }
         for _ in 0..<n_output { actual_outputs.append(0.0); errors_output_layer.append(0.0) }
+    }
+    
+    //MARK:- Assign Weight Vector till last Training happens 
+    
+    func intializeWeightVectorParametersTillLastTrain(initialWeightInputToHidden : [[Double]], initialWeightHiddenToOutput : [[Double]] ) {
+        
+        for hidden_index in 0..<n_hidden {
+            for input_index in 0..<n_input {
+                weightages_from_input_to_hidden[hidden_index][input_index] = initialWeightInputToHidden[hidden_index][input_index]
+            }
+        }
+        
+        for output_index in 0..<n_output {
+            for hidden_index in 0..<n_hidden {
+                weightages_from_hidden_to_output[output_index][hidden_index] = initialWeightHiddenToOutput[output_index][hidden_index]
+            }
+        }
     }
     
     //MARK:- Train ( single iteration )
@@ -144,8 +168,8 @@ class BackPropagation {
         return actual_outputs
     }
     
-    func getWeightVector() -> (weightages_from_input_to_hidden : [[Double]], weightages_from_hidden_to_output : [[Double]]) {
-        return (weightages_from_input_to_hidden,weightages_from_hidden_to_output)
+    func getWeightVector() ->  [[[Double]]] {
+        return [weightages_from_input_to_hidden,weightages_from_hidden_to_output]
     }
 
     
@@ -159,6 +183,13 @@ class BackPropagation {
             }
             outputs_hidden_layers[index_hidden_layer] = sigmoid(input: summation)
         }
+        
+        // take the normalized value
+        let total = outputs_hidden_layers.reduce(0.0, +)
+        for hidden_index in 0..<outputs_hidden_layers.count {
+            outputs_hidden_layers[hidden_index] /= total;
+        }
+        
     }
     
     fileprivate func calculateOutputAtOutputLayer() { // actual output at output layer
@@ -168,6 +199,12 @@ class BackPropagation {
                 summation = summation + outputs_hidden_layers[index_hidden_layer] * weightages_from_hidden_to_output[index_output_layer][index_hidden_layer]
             }
             actual_outputs[index_output_layer] = sigmoid(input: summation)
+        }
+        
+        // take the normalized value
+        let total = actual_outputs.reduce(0.0, +)
+        for output_index in 0..<actual_outputs.count {
+            actual_outputs[output_index] /= total;
         }
     }
     
@@ -202,7 +239,6 @@ class BackPropagation {
                 let momentumDelta = LearningConstants.momentum * weightages_from_hidden_to_output[index_output_layer][index_hidden_layer]
                 
                 weightages_from_hidden_to_output[index_output_layer][index_hidden_layer] += errorDelta + momentumDelta
-                //print("weightages_from_hidden_to_output[\(index_output_layer)][\(index_hidden_layer)] = \(weightages_from_hidden_to_output[index_output_layer][index_hidden_layer])")
             }
         }
     }
@@ -214,7 +250,6 @@ class BackPropagation {
                 let momentumDelta = LearningConstants.momentum * weightages_from_input_to_hidden[index_hidden_layer][index_input_layer]
                 
                 weightages_from_input_to_hidden[index_hidden_layer][index_input_layer] += errorDelta + momentumDelta
-                //print("weightages_from_input_to_hidden[\(index_hidden_layer)][\(index_input_layer)] = \(weightages_from_input_to_hidden[index_hidden_layer][index_input_layer])")
             }
         }
     }
